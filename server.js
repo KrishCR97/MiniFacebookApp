@@ -1,7 +1,14 @@
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
+var cors = require('cors');
 mongoose.Promise = require('q').Promise;
+const bodyParser = require('body-parser');
+app.use(cors({
+    origin : "http://127.0.0.1:5500"
+}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}) );
 
 mongoose.connect("mongodb://localhost:27017/app");
 var db = mongoose.connection;
@@ -52,8 +59,8 @@ app.get('/',(req,res)=>{
     });
 });
 
-app.get('/checkLogin/:userDetails',(req,res)=>{
-    req.params.userDetails
-    res.send(JSON.parse(req.params.userDetails));
-    });
+app.post('/registerUser',(req,res)=>{
+    console.log(req.body.name);
+res.send({ registered : true});
+});
 
